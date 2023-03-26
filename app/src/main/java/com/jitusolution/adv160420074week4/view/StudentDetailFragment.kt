@@ -35,6 +35,7 @@ class StudentDetailFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
         viewModel.fetch()
+observeViewModel()
 
 
     }
