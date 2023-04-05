@@ -1,5 +1,6 @@
 package com.jitusolution.adv160420074week4.view
 
+import android.database.Observable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.jitusolution.adv160420074week4.R
 import com.jitusolution.adv160420074week4.model.Student
+import com.jitusolution.adv160420074week4.util.loadImage
 import com.jitusolution.adv160420074week4.viewmodel.DetailViewModel
 import kotlinx.android.synthetic.main.fragment_student_detail.*
 import kotlinx.android.synthetic.main.student_list_item.*
@@ -32,24 +34,49 @@ class StudentDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        arguments?.let {
+            val studentID = StudentDetailFragmentArgs.fromBundle(requireArguments()).studentID
+            viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
+            viewModel.fetch(studentID)
+            observeViewModel()
+        }
 
-        viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
-        viewModel.fetch()
-        observeViewModel()
 
+//        arguments?.let {
+//            val studentID = StudentDetailFragmentArgs.fromBundle(requireArguments()).studentID
+//            viewModel=ViewModelProvider(this).get(DetailViewModel::class.java)
+//            viewModel.fetch(studentID)
+//
+//            viewModel.studentLiveData.observe(viewLifecycleOwner) {student ->
+//                txtId.setText(student.id)
+//                txtName.setText(student.name)
+//                txtBod.setText(student.bod)
+//                txtPhone.setText(student.phone)
+//                imageView.loadImage(student.photoUrl, progressBar2)
+//                btnDetail.setOnClickListener{
+//                    Observable.timer
+//                }
+//            }
+//        }
 
     }
 
     private fun observeViewModel() {
-        viewModel.studentLD.observe(viewLifecycleOwner, Observer {
+        viewModel.studentLiveData.observe(viewLifecycleOwner){
 
-            txtId.setText(it.id.toString())
-            txtName.setText(it.name.toString())
-            txtBod.setText(it.bod.toString())
-            txtPhone.setText(it.phone.toString())
+            val student = viewModel.studentLiveData.value
+            student?.let{
+                txtId.setText(student.id)
+                txtName.setText(student.name)
+                txtBod.setText(student.bod)
+                txtPhone.setText(student.phone)
+
+                imageView2.loadImage(student.photoUrl, progressBar2)
+            }
 
 
-        })
+
+        }
 
 
     }
