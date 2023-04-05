@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jitusolution.adv160420074week4.R
 import com.jitusolution.adv160420074week4.model.Student
 import com.jitusolution.adv160420074week4.util.loadImage
+import kotlinx.android.synthetic.main.fragment_student_detail.view.*
 import kotlinx.android.synthetic.main.student_list_item.view.*
 
 
@@ -28,29 +29,31 @@ class StudentListAdapter(val studentList:ArrayList<Student>) :RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
         val txtId = holder.view.findViewById<TextView>(R.id.txtId)
-        txtId.text = studentList[position].id
-
+//        txtId.text = studentList[position].id
+//
         val txtName = holder.view.findViewById<TextView>(R.id.txtName)
-        txtName.text = studentList[position].name
+//        txtName.text = studentList[position].name
 
         val student = studentList[position]
-        var imageView = holder.view.findViewById<ImageView>(R.id.imageView)
-        var progressBar = holder.view.findViewById<ProgressBar>(R.id.progressBar)
-        imageView.loadImage(studentList[position].photoUrl, progressBar)
 
-        val btnDetail = holder.view.findViewById<Button>(R.id.btnDetail)
-        btnDetail.setOnClickListener {
+        with(holder.view){
+            txtId.text=student.id
+            txtName.text=student.name
+            btnDetail.setOnClickListener {
 //            val action = StudentListFragmentDirections.actionStudentDetail()
 //            Navigation.findNavController(it).navigate(action)
-            val action = student.id?.let{ id ->
-                StudentListFragmentDirections.actionStudentDetail(id)
-            }
-            if (action != null)
-            {
-                Navigation.findNavController(it).navigate(action)
-            }
+                val action = student.id?.let{ id ->
+                    StudentListFragmentDirections.actionStudentDetail(id)
+                }
+                if (action != null)
+                {
+                    Navigation.findNavController(it).navigate(action)
+                }
 
+            }
+            imageView.loadImage(student.photoUrl, progressBar)
         }
+
     }
 
     override fun getItemCount(): Int {
