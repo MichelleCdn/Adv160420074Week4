@@ -35,7 +35,7 @@ class StudentDetailFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
         viewModel.fetch()
-observeViewModel()
+        observeViewModel()
 
 
     }
@@ -45,7 +45,7 @@ observeViewModel()
 
             txtId.setText(it.id.toString())
             txtName.setText(it.name.toString())
-            txtBod.setText(it.dob.toString())
+            txtBod.setText(it.bod.toString())
             txtPhone.setText(it.phone.toString())
 
 
