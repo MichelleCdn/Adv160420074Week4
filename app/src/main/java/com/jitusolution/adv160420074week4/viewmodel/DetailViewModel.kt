@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken
 import com.jitusolution.adv160420074week4.model.Student
 
 class DetailViewModel(application: Application): AndroidViewModel(application) {
-    val studentsLD = MutableLiveData<ArrayList<Student>>()
+    val studentsLD = MutableLiveData<Student>()
     val studentLoadErrorLD = MutableLiveData<Boolean>()
     val loadingLD = MutableLiveData<Boolean>()
     val studentLiveData = MutableLiveData<Student>()
@@ -37,7 +37,7 @@ class DetailViewModel(application: Application): AndroidViewModel(application) {
                 Request.Method.GET, url,
                 { response ->
                     val sType = object : TypeToken<List<Student>>() {}.type
-                    val result = Gson().fromJson<ArrayList<Student>>(response, sType)
+                    val result = Gson().fromJson<Student>(response, sType)
                     studentsLD.value = result
 
                     loadingLD.value = false

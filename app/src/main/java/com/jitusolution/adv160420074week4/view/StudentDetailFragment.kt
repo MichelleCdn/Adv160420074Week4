@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.jitusolution.adv160420074week4.R
@@ -38,13 +41,31 @@ class StudentDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        arguments?.let {
-            val studentID = StudentDetailFragmentArgs.fromBundle(requireArguments()).studentID
-            viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
-            viewModel.fetch(studentID)
-            observeViewModel()
-        }
+//        arguments?.let {
+//            val studentID = StudentDetailFragmentArgs.fromBundle(requireArguments()).studentID
+//            viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
+//            viewModel.fetch(studentID)
+//            observeViewModel()
+//        }
 
+        viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
+        val studentID = StudentDetailFragmentArgs.fromBundle(requireArguments()).studentID
+        viewModel.fetch(studentID)
+
+        viewModel.studentsLD.observe(viewLifecycleOwner, Observer {
+            val txtId = view.findViewById<TextView>(R.id.txtId)
+            val txtName = view.findViewById<TextView>(R.id.txtName)
+            val txtBod = view.findViewById<TextView>(R.id.txtBod)
+            val txtPhone = view.findViewById<TextView>(R.id.txtPhone)
+            val imageView = view.findViewById<ImageView>(R.id.imageView2)
+            val progressBar2 = view.findViewById<ProgressBar>(R.id.progressBar2)
+            txtId.setText(it.id)
+            txtName.setText(it.name)
+            txtBod.setText(it.bod)
+            txtPhone.setText(it.phone)
+            imageView.loadImage(it.photoUrl,progressBar2)
+
+        })
 
 //        arguments?.let {
 //            val studentID = StudentDetailFragmentArgs.fromBundle(requireArguments()).studentID

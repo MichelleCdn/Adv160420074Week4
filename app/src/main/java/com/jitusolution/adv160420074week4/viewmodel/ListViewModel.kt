@@ -16,7 +16,7 @@ import com.jitusolution.adv160420074week4.model.Student
 //class ListViewModel : ViewModel(){
 
 class ListViewModel(application: Application):AndroidViewModel(application) {
-    val studentsLD = MutableLiveData<ArrayList<Student>>()
+    val studentsLD = MutableLiveData<List<Student>>()
     val studentLoadErrorLD = MutableLiveData<Boolean>()
     val loadingLD = MutableLiveData<Boolean>()
 
