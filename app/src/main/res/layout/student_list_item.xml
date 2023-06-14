@@ -10,6 +10,9 @@
         <variable
             name="listener"
             type="com.jitusolution.adv160420074week4.view.ButtonDetailClickListener" />
+        <variable
+            name="updateListener"
+            type="com.jitusolution.adv160420074week4.view.ButtonDetailClickListener" />
 
     </data>
 
