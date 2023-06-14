@@ -7,52 +7,58 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.jitusolution.adv160420074week4.R
+import com.jitusolution.adv160420074week4.databinding.StudentListItemBinding
 import com.jitusolution.adv160420074week4.model.Student
 import com.jitusolution.adv160420074week4.util.loadImage
 import kotlinx.android.synthetic.main.fragment_student_detail.view.*
 import kotlinx.android.synthetic.main.student_list_item.view.*
 
 
-class StudentListAdapter(val studentList:ArrayList<Student>) :RecyclerView.Adapter<StudentListAdapter.StudentViewHolder>()
+class StudentListAdapter(val studentList:ArrayList<Student>) :RecyclerView.Adapter<StudentListAdapter.StudentViewHolder>(), ButtonDetailClickListener
 {
-    class StudentViewHolder(var view: View) : RecyclerView.ViewHolder(view)
+    class StudentViewHolder(var view: StudentListItemBinding) : RecyclerView.ViewHolder(view.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.student_list_item, parent, false)
+//        val view = inflater.inflate(R.layout.student_list_item, parent, false)
+        val view = DataBindingUtil.inflate<StudentListItemBinding>(inflater,R.layout.student_list_item,parent,false)
         return StudentViewHolder(view)
 
     }
 
     override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
-        val txtId = holder.view.findViewById<TextView>(R.id.txtId)
-//        txtId.text = studentList[position].id
+        holder.view.student=studentList[position]
+        holder.view.listener=this
+
+//        val txtId = holder.view.findViewById<TextView>(R.id.txtId)
+////        txtId.text = studentList[position].id
+////
+//        val txtName = holder.view.findViewById<TextView>(R.id.txtName)
+////        txtName.text = studentList[position].name
 //
-        val txtName = holder.view.findViewById<TextView>(R.id.txtName)
-//        txtName.text = studentList[position].name
+//        val student = studentList[position]
 
-        val student = studentList[position]
-
-        with(holder.view){
-            txtId.text=student.id
-            txtName.text=student.name
-            btnDetail.setOnClickListener {
-//            val action = StudentListFragmentDirections.actionStudentDetail()
-//            Navigation.findNavController(it).navigate(action)
-                val action = student.id?.let{ id ->
-                    StudentListFragmentDirections.actionStudentDetail(id)
-                }
-                if (action != null)
-                {
-                    Navigation.findNavController(it).navigate(action)
-                }
-
-            }
-            imageView.loadImage(student.photoUrl, progressBar)
-        }
+//        with(holder.view){
+//            txtId.text=student.id
+//            txtName.text=student.name
+//            btnDetail.setOnClickListener {
+////            val action = StudentListFragmentDirections.actionStudentDetail()
+////            Navigation.findNavController(it).navigate(action)
+//                val action = student.id?.let{ id ->
+//                    StudentListFragmentDirections.actionStudentDetail(id)
+//                }
+//                if (action != null)
+//                {
+//                    Navigation.findNavController(it).navigate(action)
+//                }
+//
+//            }
+//            imageView.loadImage(student.photoUrl, progressBar)
+//        }
 
     }
 
@@ -66,5 +72,10 @@ class StudentListAdapter(val studentList:ArrayList<Student>) :RecyclerView.Adapt
         studentList.clear()
         studentList.addAll(newStudentList)
         notifyDataSetChanged()
+    }
+
+    override fun onButtonDetailClick(v: View) {
+        val action = StudentListFragmentDirections.actionStudentDetail(v.tag.toString())
+        Navigation.findNavController(v).navigate(action)
     }
 }
