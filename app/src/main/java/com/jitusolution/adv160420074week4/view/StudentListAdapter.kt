@@ -68,7 +68,7 @@ class StudentListAdapter(val studentList:ArrayList<Student>) :RecyclerView.Adapt
 
     }
 
-    fun updateStudentList(newStudentList: ArrayList<Student>) {
+    fun updateStudentList(newStudentList: List<Student>) {
         studentList.clear()
         studentList.addAll(newStudentList)
         notifyDataSetChanged()
